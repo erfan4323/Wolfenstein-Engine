@@ -1,0 +1,18 @@
+# Xmake cache
+.xmake/
+build/
+compile_commands.json
+
+# Js Implementation
+src/Ray-casting-p5js-implementation/
+
+# Clangd
+.cache/
+.clang-format
+.clangd
+
+
+# MacOS Cache
+.DS_Store
+
+
