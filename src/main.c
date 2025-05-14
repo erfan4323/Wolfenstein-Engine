@@ -48,22 +48,28 @@ void DestroyWindow() {
     SDL_Quit();
 }
 
-void Setup() { player = CreatePlayer(); }
+void Setup() { player = Player_Create(); }
 
 void ProcessInput() {
     SDL_Event event;
-    SDL_PollEvent(&event);
-    switch (event.type) {
-    case SDL_QUIT: {
-        isGameRunnig = false;
-        break;
-    }
-    case SDL_KEYDOWN: {
-        if (event.key.keysym.sym == SDLK_ESCAPE) {
+    while (SDL_PollEvent(&event)) {
+        switch (event.type) {
+        case SDL_QUIT:
             isGameRunnig = false;
             break;
+        case SDL_KEYDOWN:
+            if (event.key.keysym.sym == SDLK_ESCAPE) {
+                isGameRunnig = false;
+            } else {
+                Player_ProcessInput(&player, &event);
+            }
+            break;
+        case SDL_KEYUP:
+            Player_ProcessInput(&player, &event);
+            break;
+        default:
+            break;
         }
-    }
     }
 }
 
@@ -75,13 +81,16 @@ void Update() {
     }
     float deltaTime = (SDL_GetTicks() - ticksLastFrame) / 1000.0f;
     ticksLastFrame = SDL_GetTicks();
+
+    Player_Move(&player, deltaTime);
 }
 
 void Render() {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    RenderMap(renderer);
+    Map_Render(renderer);
+    Player_Render(player, renderer);
 
     SDL_RenderPresent(renderer);
 }

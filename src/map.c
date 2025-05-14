@@ -1,7 +1,6 @@
 #include "map.h"
-#include <SDL2/SDL.h>
 
-void RenderMap(SDL_Renderer *renderer) {
+void Map_Render(SDL_Renderer *renderer) {
     for (int i = 0; i < MAP_NUM_ROWS; i++) {
         for (int j = 0; j < MAP_NUM_COLS; j++) {
             int tileX = j * TILE_SIZE;
@@ -16,4 +15,15 @@ void RenderMap(SDL_Renderer *renderer) {
             SDL_RenderFillRect(renderer, &mapTileRect);
         }
     }
+}
+
+int Map_HasWallAt(float x, float y) {
+    if (x < 0 || x > WINDOW_WIDTH || y < 0 || y > WINDOW_HEIGHT) {
+        return 1;
+    }
+
+    int mapGridIndexX = floor(x / TILE_SIZE);
+    int mapGridIndexY = floor(y / TILE_SIZE);
+
+    return MAP[mapGridIndexY][mapGridIndexX] != 0;
 }
