@@ -1,6 +1,8 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+#include <stdbool.h>
+
 #define PI 3.14159265358979323846
 #define TWO_PI 6.28318530717958647692
 #define DEGTORAD(x) (x * (PI / 180))

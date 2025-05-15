@@ -6,6 +6,7 @@
 #include "constants.h"
 #include "map.h"
 #include "player.h"
+#include "ray.h"
 
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
@@ -14,6 +15,7 @@ bool isGameRunnig = false;
 int ticksLastFrame = 0;
 
 struct Player player;
+struct Ray rays[NUM_RAYS];
 
 int InitializeWindow() {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -83,6 +85,7 @@ void Update() {
     ticksLastFrame = SDL_GetTicks();
 
     Player_Move(&player, deltaTime);
+    Ray_CastAllRays(rays, player);
 }
 
 void Render() {
@@ -91,6 +94,7 @@ void Render() {
 
     Map_Render(renderer);
     Player_Render(player, renderer);
+    Ray_RenderRays(renderer, rays, player);
 
     SDL_RenderPresent(renderer);
 }
