@@ -11,7 +11,7 @@
 #define MAP_NUM_ROWS 13
 #define MAP_NUM_COLS 20
 
-#define MINI_MAP_SCALE_FACTOR 1
+#define MINI_MAP_SCALE_FACTOR 0.3
 
 #define WINDOW_WIDTH (MAP_NUM_COLS * TILE_SIZE)
 #define WINDOW_HEIGHT (MAP_NUM_ROWS * TILE_SIZE)
@@ -22,5 +22,8 @@
 
 #define FPS 30
 #define FRAME_TIME_LENGHT (1000 / FPS)
+
+#define RGB(r, g, b) (0xFF000000 | ((r) << 16) | ((g) << 8) | (b))
+#define RGBA(r, g, b, a) (((a) << 24) | ((r) << 16) | ((g) << 8) | (b))
 
 #endif
