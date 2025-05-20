@@ -1,6 +1,7 @@
 #ifndef RAY_H
 #define RAY_H
 
+#include "color_buffer.h"
 #include "constants.h"
 #include "player.h"
 
@@ -32,5 +33,9 @@ void Ray_Cast(struct Ray *ray, struct Player player, float rayAngle, int colId);
 
 void Ray_RenderRays(SDL_Renderer *renderer, struct Ray rays[NUM_RAYS],
                     struct Player player);
+
+void Ray_Render3DProjection(struct Ray rays[NUM_RAYS],
+                            struct ColorBuffer *colorBuffer,
+                            struct Player player);
 
 #endif

@@ -1,6 +1,7 @@
 #include "constants.h"
 #include "engine.h"
 #include "map.h"
+#include "texture.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -18,6 +19,8 @@ struct EngineData *Engine_Create(void) {
 void Engine_Destroy(struct EngineData *engine) {
     if (!engine)
         return;
+
+    Texture_FreeWallTextures();
 
     if (!engine->colorBuffer)
         ColorBuffer_Destroy(engine->colorBuffer);
@@ -63,6 +66,7 @@ bool Engine_InitializeWindow(struct EngineData *engine) {
 void Engine_Setup(struct EngineData *engine) {
     engine->player = Player_Create();
     engine->colorBuffer = ColorBuffer_Create(engine->renderer);
+    Texture_LoadWalls();
 }
 
 void Engine_ProcessInput(struct EngineData *engine) {
@@ -105,7 +109,10 @@ void Engine_Render(struct EngineData *engine) {
     SDL_SetRenderDrawColor(engine->renderer, 0, 0, 0, 255);
     SDL_RenderClear(engine->renderer);
 
-    ColorBuffer_Clear(engine->colorBuffer, RGBA(225, 225, 225, 225));
+    ColorBuffer_Clear(engine->colorBuffer, RGBA(0, 0, 0, 255));
+
+    Ray_Render3DProjection(engine->rays, engine->colorBuffer, engine->player);
+
     ColorBuffer_Render(engine->colorBuffer, engine->renderer);
 
     Map_Render(engine->renderer);

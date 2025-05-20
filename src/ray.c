@@ -1,5 +1,6 @@
 #include "map.h"
 #include "ray.h"
+#include "texture.h"
 #include <limits.h>
 
 void Ray_CastAllRays(struct Ray rays[NUM_RAYS], struct Player player) {
@@ -169,5 +170,62 @@ void Ray_RenderRays(SDL_Renderer *renderer, struct Ray rays[NUM_RAYS],
                            MINI_MAP_SCALE_FACTOR * player.y,
                            MINI_MAP_SCALE_FACTOR * rays[i].hitData.wallHitX,
                            MINI_MAP_SCALE_FACTOR * rays[i].hitData.wallHitY);
+    }
+}
+
+void Ray_Render3DProjection(struct Ray rays[NUM_RAYS],
+                            struct ColorBuffer *colorBuffer,
+                            struct Player player) {
+    for (int i = 0; i < NUM_RAYS; i++) {
+        float perpDistance =
+            rays[i].distance * cos(rays[i].rayAngle - player.rotationAngle);
+        float distanceProjPlane = ((float)WINDOW_WIDTH / 2) / tan(FOV / 2);
+        float projectedWallHeight =
+            (TILE_SIZE / perpDistance) * distanceProjPlane;
+
+        int wallStripHeight = (int)projectedWallHeight;
+
+        int wallTopPixel = (WINDOW_HEIGHT / 2) - (wallStripHeight / 2);
+        wallTopPixel = wallTopPixel < 0 ? 0 : wallTopPixel;
+
+        int wallBottomPixel = (WINDOW_HEIGHT / 2) + (wallStripHeight / 2);
+        wallBottomPixel =
+            wallBottomPixel > WINDOW_HEIGHT ? WINDOW_HEIGHT : wallBottomPixel;
+
+        for (int y = 0; y < wallTopPixel; y++) {
+            int bufferIndex = (WINDOW_WIDTH * y) + i;
+            colorBuffer->pixels[bufferIndex] = RGBA(130, 130, 130, 255);
+        }
+
+        int textureOffsetX;
+        if (rays[i].hitData.wasHitVertical) {
+            textureOffsetX = (int)rays[i].hitData.wallHitY % TILE_SIZE;
+        } else {
+            textureOffsetX = (int)rays[i].hitData.wallHitX % TILE_SIZE;
+        }
+
+        int textureNumber = rays[i].hitData.wallContent - 1;
+        int textureWidth = wallTextures[textureNumber].width;
+        int textureHeight = wallTextures[textureNumber].height;
+
+        for (int y = wallTopPixel; y < wallBottomPixel; y++) {
+            int distanceFromTop =
+                y + (wallStripHeight / 2) - (WINDOW_HEIGHT / 2);
+            int textureOffsetY =
+                distanceFromTop * ((float)textureHeight / wallStripHeight);
+
+            uint32_t texelColor =
+                wallTextures[textureNumber]
+                    .textureBuffer[(textureWidth * textureOffsetY) +
+                                   textureOffsetX];
+
+            int bufferIndex = (WINDOW_WIDTH * y) + i;
+            colorBuffer->pixels[bufferIndex] = texelColor;
+        }
+
+        for (int y = wallBottomPixel; y < WINDOW_HEIGHT; y++) {
+            int bufferIndex = (WINDOW_WIDTH * y) + i;
+            colorBuffer->pixels[bufferIndex] = RGBA(90, 90, 90, 255);
+        }
     }
 }
