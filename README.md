@@ -1,7 +1,3 @@
----
-
----
-
 # Wolfenstein Engine
 
 A simple implementation of the Wolfenstein 3D rendering style using C. This project serves as a foundational example of raycasting techniques inspired by the classic 1992 game.
@@ -71,6 +67,6 @@ By following this sequence, you'll gain a comprehensive understanding of how the
 
 ## Preview
 
-![Preview](D:\Erfan\Coding\C++\Projects\Wolfenstein-Engine\readme-resources\Wolfenstein-Engine-Showcase .mp4)
+![Preview](readme-resources\Wolfenstein-Engine-Showcase .mp4)
 
 
