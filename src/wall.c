@@ -1,6 +1,19 @@
 #include "texture.h"
 #include "wall.h"
 
+uint32_t ChangeColorIntensity(uint32_t color, float factor) {
+    uint32_t a = (color >> 24) & 0xFF;
+    uint32_t r = (color >> 16) & 0xFF;
+    uint32_t g = (color >> 8) & 0xFF;
+    uint32_t b = (color) & 0xFF;
+
+    r = (uint32_t)(fminf(r * factor, 255.0f));
+    g = (uint32_t)(fminf(g * factor, 255.0f));
+    b = (uint32_t)(fminf(b * factor, 255.0f));
+
+    return (uint32_t)RGBA(r, g, b, a);
+}
+
 void Wall_Render3DProjection(struct Ray rays[NUM_RAYS],
                              struct ColorBuffer *colorBuffer,
                              struct Player player) {
@@ -46,6 +59,10 @@ void Wall_Render3DProjection(struct Ray rays[NUM_RAYS],
                 wallTextures[textureNumber]
                     .textureBuffer[(textureWidth * textureOffsetY) +
                                    textureOffsetX];
+
+            if (rays[i].hitData.wasHitVertical) {
+                texelColor = ChangeColorIntensity(texelColor, 0.7f);
+            }
 
             ColorBuffer_DrawPixel(colorBuffer, i, y, texelColor);
         }
