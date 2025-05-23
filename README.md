@@ -65,6 +65,4 @@ To comprehend the workings of this project, consider the following steps:
 
 By following this sequence, you'll gain a comprehensive understanding of how the engine operates and how the various components interact to create the final rendered scene.
 
-## Preview
-
-[![Preview](https://github.com/erfan4323/Wolfenstein-Engine/blob/master/readme-resources/Wolfenstein-Engine-Showcase.mp4)](https://github.com/erfan4323/Wolfenstein-Engine/blob/master/readme-resources/Wolfenstein-Engine-Showcase.mp4)
+# 
