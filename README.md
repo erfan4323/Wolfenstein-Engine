@@ -67,6 +67,4 @@ By following this sequence, you'll gain a comprehensive understanding of how the
 
 ## Preview
 
-![Preview](./readme-resources/Wolfenstein-Engine-Showcase.mp4)
-
-
+[![Preview](https://github.com/erfan4323/Wolfenstein-Engine/blob/master/readme-resources/Wolfenstein-Engine-Showcase.mp4)](https://github.com/erfan4323/Wolfenstein-Engine/blob/master/readme-resources/Wolfenstein-Engine-Showcase.mp4)
