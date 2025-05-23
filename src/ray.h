@@ -14,10 +14,10 @@ struct RayHitData {
 };
 
 struct RayDirection {
-    int isRayFacingUp;
-    int isRayFacingDown;
-    int isRayFacingLeft;
-    int isRayFacingRight;
+    bool isRayFacingUp;
+    bool isRayFacingDown;
+    bool isRayFacingLeft;
+    bool isRayFacingRight;
 };
 
 struct Ray {
@@ -31,11 +31,11 @@ void Ray_CastAllRays(struct Ray rays[NUM_RAYS], struct Player player);
 
 void Ray_Cast(struct Ray *ray, struct Player player, float rayAngle, int colId);
 
-void Ray_RenderRays(SDL_Renderer *renderer, struct Ray rays[NUM_RAYS],
-                    struct Player player);
+void Ray_RenderRays(struct ColorBuffer *cb, SDL_Renderer *renderer,
+                    struct Ray rays[NUM_RAYS], struct Player player);
 
-void Ray_Render3DProjection(struct Ray rays[NUM_RAYS],
-                            struct ColorBuffer *colorBuffer,
-                            struct Player player);
+// void Ray_Render3DProjection(struct Ray rays[NUM_RAYS],
+//                             struct ColorBuffer *colorBuffer,
+//                             struct Player player);
 
 #endif

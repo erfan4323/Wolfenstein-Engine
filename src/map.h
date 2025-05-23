@@ -19,8 +19,9 @@ const int MAP[MAP_NUM_ROWS][MAP_NUM_COLS] = {
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 5},
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5}};
 
-void Map_Render(SDL_Renderer *renderer);
-
-int Map_HasWallAt(float x, float y);
+void Map_Render(struct ColorBuffer *cb, SDL_Renderer *renderer);
+bool Map_HasWallAt(float x, float y);
+int Map_GetValueAt(int x, int y);
+int Map_IsInsideMap(int x, int y);
 
 #endif

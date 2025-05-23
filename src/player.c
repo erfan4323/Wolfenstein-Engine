@@ -10,7 +10,7 @@ struct Player Player_Create() {
                             0,
                             0,
                             PI / 2.0f,
-                            100.0f,
+                            200.0f,
                             DEGTORAD(70.0f)};
 
     return player;
@@ -18,10 +18,10 @@ struct Player Player_Create() {
 
 void Player_Render(struct Player player, SDL_Renderer *renderer) {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_Rect playerRect = {MINI_MAP_SCALE_FACTOR * player.x,
-                           MINI_MAP_SCALE_FACTOR * player.y,
-                           MINI_MAP_SCALE_FACTOR * player.width,
-                           MINI_MAP_SCALE_FACTOR * player.height};
+    SDL_Rect playerRect = {(int)(MINI_MAP_SCALE_FACTOR * player.x),
+                           (int)(MINI_MAP_SCALE_FACTOR * player.y),
+                           (int)(MINI_MAP_SCALE_FACTOR * player.width),
+                           (int)(MINI_MAP_SCALE_FACTOR * player.height)};
     SDL_RenderFillRect(renderer, &playerRect);
 
     SDL_RenderDrawLine(

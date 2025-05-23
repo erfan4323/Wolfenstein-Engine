@@ -2,7 +2,6 @@
 #define TEXTURE_H
 #include "constants.h"
 #include <SDL2/SDL.h>
-#include <stdint.h>
 
 extern const char *textureFileNames[NUM_TEXTURES];
 extern struct Texture wallTextures[NUM_TEXTURES];

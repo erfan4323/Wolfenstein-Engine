@@ -2,6 +2,7 @@
 #include "engine.h"
 #include "map.h"
 #include "texture.h"
+#include "wall.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -42,9 +43,14 @@ bool Engine_InitializeWindow(struct EngineData *engine) {
         return false;
     }
 
-    engine->window =
-        SDL_CreateWindow(NULL, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                         WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_BORDERLESS);
+    SDL_DisplayMode display_mode;
+    SDL_GetCurrentDisplayMode(0, &display_mode);
+    int fullScreenWidth = display_mode.w;
+    int fullScreenHeight = display_mode.h;
+
+    engine->window = SDL_CreateWindow(NULL, SDL_WINDOWPOS_CENTERED,
+                                      SDL_WINDOWPOS_CENTERED, fullScreenWidth,
+                                      fullScreenHeight, SDL_WINDOW_BORDERLESS);
 
     if (!engine->window) {
         fprintf(stderr, "Error creating SDL window\n");
@@ -106,18 +112,15 @@ void Engine_Update(struct EngineData *engine) {
 }
 
 void Engine_Render(struct EngineData *engine) {
-    SDL_SetRenderDrawColor(engine->renderer, 0, 0, 0, 255);
-    SDL_RenderClear(engine->renderer);
-
     ColorBuffer_Clear(engine->colorBuffer, RGBA(0, 0, 0, 255));
 
-    Ray_Render3DProjection(engine->rays, engine->colorBuffer, engine->player);
+    Wall_Render3DProjection(engine->rays, engine->colorBuffer, engine->player);
+
+    // Rendering the mini map
+    Map_Render(engine->colorBuffer, engine->renderer);
+    Player_Render(engine->player, engine->renderer);
+    Ray_RenderRays(engine->colorBuffer, engine->renderer, engine->rays,
+                   engine->player);
 
     ColorBuffer_Render(engine->colorBuffer, engine->renderer);
-
-    Map_Render(engine->renderer);
-    Player_Render(engine->player, engine->renderer);
-    Ray_RenderRays(engine->renderer, engine->rays, engine->player);
-
-    SDL_RenderPresent(engine->renderer);
 }
