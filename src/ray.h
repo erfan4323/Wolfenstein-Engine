@@ -31,8 +31,8 @@ void Ray_CastAllRays(struct Ray rays[NUM_RAYS], struct Player player);
 
 void Ray_Cast(struct Ray *ray, struct Player player, float rayAngle, int colId);
 
-void Ray_RenderRays(struct ColorBuffer *cb, SDL_Renderer *renderer,
-                    struct Ray rays[NUM_RAYS], struct Player player);
+void Ray_RenderRaysOnMap(struct ColorBuffer *cb, SDL_Renderer *renderer,
+                         struct Ray rays[NUM_RAYS], struct Player player);
 
 // void Ray_Render3DProjection(struct Ray rays[NUM_RAYS],
 //                             struct ColorBuffer *colorBuffer,

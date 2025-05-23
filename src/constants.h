@@ -13,16 +13,18 @@
 
 #define MINI_MAP_SCALE_FACTOR 0.3
 
-#define WINDOW_WIDTH 1400
-#define WINDOW_HEIGHT 900
+#define WINDOW_WIDTH 1400.0f
+#define WINDOW_HEIGHT 900.0f
 
-#define NUM_TEXTURES 9
+#define NUM_TEXTURES 14
+
+#define NUM_SPRITES 6
 
 #define FOV DEGTORAD(60)
 
 #define DIST_PROJ_PLANE ((WINDOW_WIDTH / 2) / tan(FOV / 2))
 
-#define NUM_RAYS WINDOW_WIDTH
+#define NUM_RAYS (int)WINDOW_WIDTH
 
 #define FPS 30
 #define FRAME_TIME_LENGHT (1000 / FPS)

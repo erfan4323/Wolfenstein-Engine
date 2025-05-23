@@ -1,6 +1,7 @@
 #include "constants.h"
 #include "map.h"
 #include "player.h"
+#include "utils.h"
 
 struct Player Player_Create() {
     struct Player player = {WINDOW_WIDTH / 2.0f,
@@ -16,7 +17,7 @@ struct Player Player_Create() {
     return player;
 }
 
-void Player_Render(struct Player player, SDL_Renderer *renderer) {
+void Player_RenderOnMap(struct Player player, SDL_Renderer *renderer) {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_Rect playerRect = {(int)(MINI_MAP_SCALE_FACTOR * player.x),
                            (int)(MINI_MAP_SCALE_FACTOR * player.y),
@@ -34,6 +35,7 @@ void Player_Render(struct Player player, SDL_Renderer *renderer) {
 void Player_Move(struct Player *player, float deltaTime) {
     player->rotationAngle +=
         player->turnDirection * player->turnSpeed * deltaTime;
+    player->rotationAngle = NormalizeAngle(player->rotationAngle);
 
     if (player->walkDirection != 0) {
 

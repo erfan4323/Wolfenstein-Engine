@@ -1,6 +1,7 @@
 #include "constants.h"
 #include "engine.h"
 #include "map.h"
+#include "sprite.h"
 #include "texture.h"
 #include "wall.h"
 #include <stdio.h>
@@ -21,7 +22,7 @@ void Engine_Destroy(struct EngineData *engine) {
     if (!engine)
         return;
 
-    Texture_FreeWallTextures();
+    Texture_FreeTextures();
 
     if (!engine->colorBuffer)
         ColorBuffer_Destroy(engine->colorBuffer);
@@ -72,7 +73,7 @@ bool Engine_InitializeWindow(struct EngineData *engine) {
 void Engine_Setup(struct EngineData *engine) {
     engine->player = Player_Create();
     engine->colorBuffer = ColorBuffer_Create(engine->renderer);
-    Texture_LoadWalls();
+    Texture_LoadTextures();
 }
 
 void Engine_ProcessInput(struct EngineData *engine) {
@@ -115,12 +116,15 @@ void Engine_Render(struct EngineData *engine) {
     ColorBuffer_Clear(engine->colorBuffer, RGBA(0, 0, 0, 255));
 
     Wall_Render3DProjection(engine->rays, engine->colorBuffer, engine->player);
+    Sprite_RenderSpriteProjection(engine->colorBuffer, engine->rays,
+                                  engine->player);
 
     // Rendering the mini map
     Map_Render(engine->colorBuffer, engine->renderer);
-    Player_Render(engine->player, engine->renderer);
-    Ray_RenderRays(engine->colorBuffer, engine->renderer, engine->rays,
-                   engine->player);
+    Player_RenderOnMap(engine->player, engine->renderer);
+    Ray_RenderRaysOnMap(engine->colorBuffer, engine->renderer, engine->rays,
+                        engine->player);
+    Sprite_RenderSpritesOnMap(engine->colorBuffer);
 
     ColorBuffer_Render(engine->colorBuffer, engine->renderer);
 }

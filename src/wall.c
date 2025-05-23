@@ -24,7 +24,7 @@ void Wall_Render3DProjection(struct Ray rays[NUM_RAYS],
         float projectedWallHeight =
             (TILE_SIZE / perpDistance) * distanceProjPlane;
 
-        int wallStripHeight = (int)projectedWallHeight;
+        float wallStripHeight = projectedWallHeight;
 
         int wallTopPixel = (WINDOW_HEIGHT / 2) - (wallStripHeight / 2);
         wallTopPixel = wallTopPixel < 0 ? 0 : wallTopPixel;
@@ -46,8 +46,8 @@ void Wall_Render3DProjection(struct Ray rays[NUM_RAYS],
         }
 
         int textureNumber = rays[i].hitData.wallContent - 1;
-        int textureWidth = wallTextures[textureNumber].width;
-        int textureHeight = wallTextures[textureNumber].height;
+        int textureWidth = textures[textureNumber].width;
+        int textureHeight = textures[textureNumber].height;
 
         for (int y = wallTopPixel; y < wallBottomPixel; y++) {
             int distanceFromTop =
@@ -56,7 +56,7 @@ void Wall_Render3DProjection(struct Ray rays[NUM_RAYS],
                 distanceFromTop * ((float)textureHeight / wallStripHeight);
 
             uint32_t texelColor =
-                wallTextures[textureNumber]
+                textures[textureNumber]
                     .textureBuffer[(textureWidth * textureOffsetY) +
                                    textureOffsetX];
 

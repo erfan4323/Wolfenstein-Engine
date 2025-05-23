@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 
 extern const char *textureFileNames[NUM_TEXTURES];
-extern struct Texture wallTextures[NUM_TEXTURES];
+extern struct Texture textures[NUM_TEXTURES];
 
 struct Texture {
     int width;
@@ -12,7 +12,7 @@ struct Texture {
     uint32_t *textureBuffer;
 };
 
-void Texture_LoadWalls();
-void Texture_FreeWallTextures();
+void Texture_LoadTextures();
+void Texture_FreeTextures();
 
 #endif

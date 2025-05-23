@@ -17,7 +17,7 @@ struct Player {
 
 struct Player Player_Create();
 
-void Player_Render(struct Player player, SDL_Renderer *renderer);
+void Player_RenderOnMap(struct Player player, SDL_Renderer *renderer);
 
 void Player_Move(struct Player *player, float deltaTime);
 

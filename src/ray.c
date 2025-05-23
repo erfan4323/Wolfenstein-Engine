@@ -1,5 +1,6 @@
 #include "map.h"
 #include "ray.h"
+#include "utils.h"
 #include <limits.h>
 
 void Ray_CastAllRays(struct Ray rays[NUM_RAYS], struct Player player) {
@@ -8,14 +9,6 @@ void Ray_CastAllRays(struct Ray rays[NUM_RAYS], struct Player player) {
                          atan((colId - (float)NUM_RAYS / 2) / DIST_PROJ_PLANE);
         Ray_Cast(&rays[colId], player, rayAngle, colId);
     }
-}
-
-float NormalizeAngle(float angle) {
-    angle = remainder(angle, TWO_PI);
-    if (angle < 0) {
-        angle += TWO_PI;
-    }
-    return angle;
 }
 
 struct RayDirection ComputeRayDirection(float rayAngle) {
@@ -121,11 +114,6 @@ struct RayHitData VerticalHit(struct Player player, float rayAngle) {
 
     return hitData;
 }
-float calculateDistance(float x1, float y1, float x2, float y2) {
-    float dx = x2 - x1;
-    float dy = y2 - y1;
-    return sqrtf(dx * dx + dy * dy);
-}
 
 void Ray_Cast(struct Ray *ray, struct Player player, float rayAngle,
               int colId) {
@@ -158,8 +146,8 @@ void Ray_Cast(struct Ray *ray, struct Player player, float rayAngle,
     ray->direction = ComputeRayDirection(rayAngle);
 }
 
-void Ray_RenderRays(struct ColorBuffer *cb, SDL_Renderer *renderer,
-                    struct Ray rays[NUM_RAYS], struct Player player) {
+void Ray_RenderRaysOnMap(struct ColorBuffer *cb, SDL_Renderer *renderer,
+                         struct Ray rays[NUM_RAYS], struct Player player) {
     for (int i = 0; i < NUM_RAYS; i++) {
         ColorBuffer_DrawLine(cb, MINI_MAP_SCALE_FACTOR * player.x,
                              MINI_MAP_SCALE_FACTOR * player.y,
